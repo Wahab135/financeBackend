@@ -49,6 +49,18 @@ app.put("/product/:id", async (req, res) => {
   }
 });
 
+//CURD Delete
+app.delete("/product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+    res.status(200).json(product);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 connectToDatabase()
   .then(() => {
     app.listen(port, () => {
