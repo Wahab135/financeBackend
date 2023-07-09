@@ -1,10 +1,11 @@
 //connectionString = mongodb+srv://wahab:<password>@nodeapitesting.8brpasx.mongodb.net/?retryWrites=true&w=majority
+require("dotenv").config();
 const mongoose = require("mongoose");
+const MONGO_URL = process.env.MONGO_URL;
+mongoose.set("strictQuery", false);
 const connectToDatabase = async () => {
   mongoose
-    .connect(
-      "mongodb+srv://wahab:03315046101@nodeapitesting.8brpasx.mongodb.net/Node-API?retryWrites=true&w=majority"
-    )
+    .connect(MONGO_URL)
     .then(() => {
       console.log("connected to mongodb");
     })

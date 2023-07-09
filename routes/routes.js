@@ -1,12 +1,22 @@
 const express = require("express");
-
+const Product = require("../models/productModels.js");
 const router = express.Router();
-router.get("/", (req, res) => {
-  res.send("In routes folder in /");
-});
+const productController = require("../controllers/productController.js");
 
-router.get("/g", (req, res) => {
-  res.send("In routes folder in /g");
-});
+router.get("/", productController.helloWorld);
+router.get("/about", productController.about);
+//CURD CREATE
+router.post("/product", productController.createProduct);
 
+//CURD READ
+router.get("/products", productController.getProducts);
+
+//CURD UPDATE
+router.put("/product/:id", productController.updateProduct);
+
+//CURD Delete
+router.delete("/product/:id", productController.deleteProduct);
+
+//CURD single product reading
+router.post("/getProduct/:id", productController.getProduct);
 module.exports = router;
