@@ -1,14 +1,17 @@
 const express = require("express");
+const cors = require("cors");
 const router = require("./routes/routes");
 const connectToDatabase = require("./database");
 const Product = require("./models/productModels");
 const mongoose = require("mongoose");
 const app = express();
-const port = 3000;
+const port = 3005;
 app.use(express.json());
+app.use(cors());
 app.use("/api", router);
 app.get("/", (req, res) => {
   res.send("Helloworld");
+  console.log("hello console");
 });
 //CURD CREATE
 app.post("/product", async (req, res) => {
