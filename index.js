@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const router = require("./routes/routes");
+const userRouter = require("./routes/userRoutes");
 const connectToDatabase = require("./database");
 const mongoose = require("mongoose");
 const app = express();
@@ -12,10 +13,11 @@ var corsOptions = {
   origin: FRONTEND,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
+
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/", router);
-
+app.use("/user", userRouter);
 app.use(errorMiddleware);
 
 connectToDatabase()
