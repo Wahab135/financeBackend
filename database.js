@@ -1,4 +1,3 @@
-//connectionString = mongodb+srv://wahab:<password>@nodeapitesting.8brpasx.mongodb.net/?retryWrites=true&w=majority
 require("dotenv").config();
 const mongoose = require("mongoose");
 const MONGO_URL = process.env.MONGO_URL;
