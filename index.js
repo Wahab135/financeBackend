@@ -9,6 +9,7 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const FRONTEND = process.env.FRONTEND;
 const errorMiddleware = require("./middleware/errorMiddleware");
+const validateToken = require("./middleware/validateTokenHandler");
 var corsOptions = {
   origin: FRONTEND,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -16,8 +17,8 @@ var corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use("/", router);
 app.use("/user", userRouter);
+app.use("/", router);
 app.use(errorMiddleware);
 
 connectToDatabase()

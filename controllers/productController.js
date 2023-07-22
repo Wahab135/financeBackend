@@ -13,7 +13,7 @@ const about = (req, res) => {
 
 const getProducts = asyncHandler(async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({ user_id: req.user.user.id });
     res.status(200).json(products);
   } catch (error) {
     res.status(500);
@@ -49,9 +49,18 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 const createProduct = asyncHandler(async (req, res) => {
+  const { name, price } = req.body;
+  if (!name || !price) {
+    res.status(500);
+    throw new Error("All fields are required!");
+  }
   try {
-    const product = await Product.create(req.body);
-    res.status(200).json(product);
+    const product = await Product.create({
+      name,
+      price,
+      user_id: req.user.user.id,
+    });
+    res.status(200).send("Product created successfully!");
   } catch (error) {
     res.status(500);
     throw new Error(error.message);
