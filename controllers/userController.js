@@ -58,7 +58,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1m" }
+      { expiresIn: "1h" }
     );
     res.status(200).json({ accessToken });
   } else {
@@ -68,7 +68,12 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  res.send("display all users!");
+  const users = await userModel.find({});
+  if (users) {
+    res.status(200).send(users);
+  } else {
+    res.status(500).send({ message: "cant query users!" });
+  }
 });
 
 module.exports = {
