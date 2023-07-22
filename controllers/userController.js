@@ -76,10 +76,14 @@ const getUsers = asyncHandler(async (req, res) => {
   }
 });
 
+const currentUser = asyncHandler(async (req, res) => {
+  res.status(200).send(req.user);
+});
 module.exports = {
   userHelloWorld,
   createUser,
   deleteUser,
   getUsers,
   loginUser,
+  currentUser,
 };
