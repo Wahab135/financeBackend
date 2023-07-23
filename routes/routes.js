@@ -13,10 +13,10 @@ router.post("/product", validateToken, productController.createProduct);
 router.get("/products", validateToken, productController.getProducts);
 
 //CURD UPDATE
-router.put("/product/:id", productController.updateProduct);
+router.put("/product/:id", validateToken, productController.updateProduct);
 
 //CURD Delete
-router.delete("/product/:id", productController.deleteProduct);
+router.delete("/product/:id", validateToken, productController.deleteProduct);
 
 //CURD single product reading
 router.post("/getProduct/:id", productController.getProduct);

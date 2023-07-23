@@ -34,13 +34,17 @@ const getProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body);
+    const userId = req.user.user.id;
+    const product = await Product.findOneAndUpdate(
+      { _id: id, user_id: userId },
+      req.body
+    );
     if (!product) {
       return res
         .status(404)
         .json({ message: `cannot find any product with ID ${id}` });
     }
-    const updatedProduct = await Product.findById(id);
+    const updatedProduct = await Product.find({ _id: id, user_id: userId });
     res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500);
@@ -70,8 +74,12 @@ const createProduct = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndDelete(id);
-    res.status(200).json(product);
+    const userId = req.user.user.id;
+    const product = await Product.findOneAndDelete({
+      _id: id,
+      user_id: userId,
+    });
+    res.status(200).json({ message: "Product deleted successfully!" });
   } catch (error) {
     res.status(500);
     throw new Error(error.message);
