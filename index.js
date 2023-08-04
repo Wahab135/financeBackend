@@ -17,6 +17,7 @@ var corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+
 app.use("/user", userRouter);
 app.use("/", router);
 app.use(errorMiddleware);

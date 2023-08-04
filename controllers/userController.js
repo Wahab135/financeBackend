@@ -9,6 +9,8 @@ const userHelloWorld = asyncHandler(async (req, res) => {
 });
 
 const createUser = asyncHandler(async (req, res) => {
+  //console.log(JSON.parse(req.body.body));
+
   const { userName, password, email } = req.body;
   if (!userName || !password || !email) {
     res.status(500);
@@ -42,7 +44,13 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
+  console.log(req);
+  console.log("-----------------------------------------------------------");
+
+  //const { email, password } = JSON.parse(req.body.body);
   const { email, password } = req.body;
+  //const { email, password } = req.body.body;
+
   if (!email || !password) {
     res.status(500);
     throw new Error("All fields are mandatory!");
