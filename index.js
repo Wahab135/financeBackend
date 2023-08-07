@@ -4,6 +4,7 @@ const router = require("./routes/routes");
 const userRouter = require("./routes/userRoutes");
 const connectToDatabase = require("./database");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
@@ -12,9 +13,11 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 const validateToken = require("./middleware/validateTokenHandler");
 var corsOptions = {
   origin: FRONTEND,
+  credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 
