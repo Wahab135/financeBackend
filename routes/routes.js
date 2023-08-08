@@ -2,7 +2,8 @@ const express = require("express");
 const Product = require("../models/productModels.js");
 const router = express.Router();
 const productController = require("../controllers/productController.js");
-const validateToken = require("../middleware/validateTokenHandler.js");
+const validateToken = require("../middleware/validateToken.js");
+const validateCookie = require("../middleware/validateCookie.js");
 
 router.get("/", productController.helloWorld);
 router.get("/about", productController.about);
@@ -10,7 +11,7 @@ router.get("/about", productController.about);
 router.post("/product", validateToken, productController.createProduct);
 
 //CURD READ
-router.get("/products", validateToken, productController.getProducts);
+router.get("/products", validateCookie, productController.getProducts);
 
 //CURD UPDATE
 router.put("/product/:id", validateToken, productController.updateProduct);

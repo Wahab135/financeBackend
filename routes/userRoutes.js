@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/userModel");
 const userController = require("../controllers/userController.js");
-const validateToken = require("../middleware/validateTokenHandler");
+const validateToken = require("../middleware/validateCookie");
 const router = express.Router();
 
 router.get("/", userController.userHelloWorld);

@@ -10,7 +10,7 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const FRONTEND = process.env.FRONTEND;
 const errorMiddleware = require("./middleware/errorMiddleware");
-const validateToken = require("./middleware/validateTokenHandler");
+const validateToken = require("./middleware/validateToken");
 var corsOptions = {
   origin: FRONTEND,
   credentials: true,
