@@ -1,6 +1,8 @@
 const express = require("express");
 const Product = require("../models/productModels.js");
 const asyncHandler = require("express-async-handler");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const helloWorld = (req, res) => {
   res.send("Hello-World");
@@ -39,6 +41,36 @@ const updateProduct = asyncHandler(async (req, res) => {
       { _id: id, user_id: userId },
       req.body
     );
+    if (!product) {
+      return res
+        .status(404)
+        .json({ message: `cannot find any product with ID ${id}` });
+    }
+    const updatedProduct = await Product.find({ _id: id, user_id: userId });
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message);
+  }
+});
+
+const updateProductCookie = asyncHandler(async (req, res) => {
+  const token = req.cookies["access-token"];
+  if (!token) {
+    res.status(401);
+    throw new Error("token is missing!");
+  }
+  try {
+    const decoded = jwt.verify(token, proce.env.ACCESS_TOKEN_SECRET);
+    req.user = decoded;
+    const userId = decoded.user.id;
+    const { id } = req.params;
+    const product = await Product.findOneAndUpdate(
+      { _id: id, user_id: userId },
+      req.body
+    );
+    res.status(200).json(product);
+
     if (!product) {
       return res
         .status(404)

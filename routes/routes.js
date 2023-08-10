@@ -8,16 +8,16 @@ const validateCookie = require("../middleware/validateCookie.js");
 router.get("/", productController.helloWorld);
 router.get("/about", productController.about);
 //CURD CREATE
-router.post("/product", validateToken, productController.createProduct);
+router.post("/product", validateCookie, productController.createProduct);
 
 //CURD READ
 router.get("/products", validateCookie, productController.getProducts);
 
 //CURD UPDATE
-router.put("/product/:id", validateToken, productController.updateProduct);
+router.put("/product/:id", validateCookie, productController.updateProduct);
 
 //CURD Delete
-router.delete("/product/:id", validateToken, productController.deleteProduct);
+router.delete("/product/:id", validateCookie, productController.deleteProduct);
 
 //CURD single product reading
 router.post("/getProduct/:id", productController.getProduct);
