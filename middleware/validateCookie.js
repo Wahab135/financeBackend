@@ -30,28 +30,22 @@ const validateToken = asyncHandler(async (req, res, next) => {
 
 //with cookies.
 const validateCookie = asyncHandler(async (req, res, next) => {
-  console.log("Entering validate cookie token!");
   const token = req.cookies["access-token"];
-  console.log("here");
 
   if (!token) {
     res.status(401); // Use 401 Unauthorized for missing token
-    throw new Error("Token is missing!");
+    throw new Error("Cookie is missing!");
   }
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log("token is present!");
     req.user = decoded;
-    console.log(req.user.user.id);
     //res.status(200).json({ message: "Token is valid!" }); // Respond with success message
   } catch (err) {
-    console.error("JWT verification error:", err);
     res.status(401).json({ error: "Token is invalid!" }); // Respond with error message
     throw new Error("token is invalid!");
   }
 
-  console.log("exiting validate token");
   next();
 });
 module.exports = validateCookie;

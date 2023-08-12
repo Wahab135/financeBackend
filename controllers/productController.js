@@ -1,5 +1,6 @@
 const express = require("express");
 const Product = require("../models/productModels.js");
+const User = require("../models/userModel.js");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -16,9 +17,14 @@ const about = (req, res) => {
 const getProducts = asyncHandler(async (req, res) => {
   try {
     const products = await Product.find({ user_id: req.user.user.id });
-    res.status(200).json(products);
+    const salary = req.user.user.salary;
+    const totalSum = products.reduce((sum, product) => sum + product.price, 0);
+
+    console.log("Total Sum of Product Prices:", totalSum);
+    console.log("Total Sum of salary:", salary);
+    res.status(200).json({ products, totalSum, salary });
   } catch (error) {
-    res.status(500);
+    res.status(404);
     throw new Error(error.message);
   }
 });
@@ -29,7 +35,7 @@ const getProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(id);
     res.status(200).json(product);
   } catch (error) {
-    res.status(500);
+    res.status(400);
     throw new Error(error.message);
   }
 });
@@ -49,7 +55,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const updatedProduct = await Product.find({ _id: id, user_id: userId });
     res.status(200).json(updatedProduct);
   } catch (error) {
-    res.status(500);
+    res.status(401);
     throw new Error(error.message);
   }
 });
@@ -98,7 +104,7 @@ const createProduct = asyncHandler(async (req, res) => {
     });
     res.status(200).send("Product created successfully!");
   } catch (error) {
-    res.status(500);
+    res.status(404);
     throw new Error(error.message);
   }
 });

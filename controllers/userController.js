@@ -9,9 +9,7 @@ const userHelloWorld = asyncHandler(async (req, res) => {
 });
 
 const validateUser = asyncHandler(async (req, res) => {
-  console.log("Entering validate cookie token!");
   const token = req.cookies["access-token"];
-  console.log("here");
 
   if (!token) {
     res.status(401); // Use 401 Unauthorized for missing token
@@ -20,23 +18,18 @@ const validateUser = asyncHandler(async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log("token is present!");
     req.user = decoded;
-    console.log(req.user.user.id);
     res.status(200).json({ message: "Token is valid!" }); // Respond with success message
   } catch (err) {
-    console.error("JWT verification error:", err);
     res.status(401).json({ error: "Token is invalid!" }); // Respond with error message
   }
-
-  console.log("exiting validate token");
 });
 
 const createUser = asyncHandler(async (req, res) => {
   //console.log(JSON.parse(req.body.body));
 
-  const { userName, password, email } = req.body;
-  if (!userName || !password || !email) {
+  const { userName, password, email, salary } = req.body;
+  if (!userName || !password || !email || !salary) {
     res.status(500);
     throw new Error("All fields are required!");
   }
@@ -52,13 +45,11 @@ const createUser = asyncHandler(async (req, res) => {
       userName,
       email,
       password: hashedPassword,
+      salary,
     });
-    res.status(200).json({
-      _id: user.id,
-      email: user.email,
-    });
+    res.status(200).json({ message: "successfully registered!" });
   } catch (error) {
-    res.status(500);
+    res.status(404);
     throw new Error(error.message);
   }
 });
@@ -83,9 +74,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const accessToken = jwt.sign(
       {
         user: {
-          userName: user.userName,
-          email: user.email,
           id: user.id,
+          salary: user.salary,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
@@ -101,7 +91,7 @@ const loginUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: false,
     });
-    res.status(200).json({ accessToken });
+    res.status(200).json({ Message: "Login successfull!" });
   } else {
     console.log("Invalid email or password");
     res.status(401).json({ message: "Invalid email or password" });

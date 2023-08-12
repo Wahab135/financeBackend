@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema(
       required: [true, "please enter Email"],
       unique: [true, "User already registered"],
     },
+    salary: {
+      type: String,
+      required: [true, "please enter Salary"],
+    },
   },
   {
     timestamps: true,
