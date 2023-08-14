@@ -89,12 +89,13 @@ const loginUser = asyncHandler(async (req, res) => {
     });*/
     res.cookie("access-token", accessToken, {
       httpOnly: true,
-      secure: false,
+      sameSite: "None",
+      secure: true,
     });
     res.status(200).json({ Message: "Login successfull!" });
   } else {
     console.log("Invalid email or password");
-    res.status(401).json({ message: "Invalid email or password" });
+    res.status(404).json({ message: "Invalid email or password" });
   }
 });
 

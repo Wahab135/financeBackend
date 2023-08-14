@@ -11,12 +11,14 @@ const PORT = process.env.PORT;
 const FRONTEND = process.env.FRONTEND;
 const errorMiddleware = require("./middleware/errorMiddleware");
 const validateToken = require("./middleware/validateToken");
+
 var corsOptions = {
   origin: FRONTEND,
   credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 app.use(cors(corsOptions));
+//app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
