@@ -22,9 +22,9 @@ router.post("/validate", userController.validateUser);
 router.get("/logout", (req, res) => {
   // Clear the HttpOnly cookie by setting an empty cookie with the same name
   res.clearCookie("access-token", {
-    //httpOnly: true,
-    //sameSite: "strict",
-    //secure: false,
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
   });
 
   res.status(200).json({ message: "Logged out successfully" });
