@@ -8,23 +8,6 @@ const userHelloWorld = asyncHandler(async (req, res) => {
   res.send("Hello World!, user route is working!");
 });
 
-const validateUser = asyncHandler(async (req, res) => {
-  const token = req.cookies["access-token"];
-
-  if (!token) {
-    res.status(401); // Use 401 Unauthorized for missing token
-    throw new Error("Token is missing!");
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.user = decoded;
-    res.status(200).json({ message: "Token is valid!" }); // Respond with success message
-  } catch (err) {
-    res.status(401).json({ error: "Token is invalid!" }); // Respond with error message
-  }
-});
-
 const createUser = asyncHandler(async (req, res) => {
   //console.log(JSON.parse(req.body.body));
 
@@ -99,24 +82,9 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await userModel.find({});
-  if (users) {
-    res.status(200).send(users);
-  } else {
-    res.status(500).send({ message: "cant query users!" });
-  }
-});
-
-const currentUser = asyncHandler(async (req, res) => {
-  res.status(200).send(req.user);
-});
 module.exports = {
   userHelloWorld,
   createUser,
   deleteUser,
-  getUsers,
   loginUser,
-  currentUser,
-  validateUser,
 };
