@@ -29,7 +29,7 @@ app.use(errorMiddleware);
 
 connectToDatabase()
   .then(() => {
-    app.listen(PORT, ip, () => {
+    app.listen(PORT, () => {
       console.log(`listening on port : ${PORT}`);
     });
   })
